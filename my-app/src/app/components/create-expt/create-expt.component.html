@@ -1,0 +1,18 @@
+<div id="createExpt">
+    <div class="wrapper">
+        <main>
+            <form [formGroup]="formCreateExpt" (submit)="onSubmit()">
+                <div>
+                    <label for="title"></label>
+                    <input type="text" name="title" formControlName="title">
+                    <label for="desc"></label>
+                    <input type="text" name="desc" formControlName="desc">
+                    <label for="materials"></label>
+                    <input type="text" name="materials" formControlName="materials">
+                    <label for="instructions"></label>
+                    <input type="text" name="instructions" formControlName="instructions">
+                </div>
+            </form>
+        </main>
+    </div>
+</div>

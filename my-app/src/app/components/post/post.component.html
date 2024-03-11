@@ -1,16 +1,35 @@
 <div id="post">
     <main>
         <div>
+            <article *ngFor= "let experiment of experiments">
+                <p><b>Titel: </b>{{experiment.title}}</p>
+            
+                <p><b>Kategorier: </b></p>
+                <section class="category" *ngFor="let category of experiment.categories">
+                    <p>{{category.category}}</p>
+                </section>
 
-        <article *ngFor= "let experiment of experiments">
-            <p><b>Titel: </b>{{experiment.title}}</p>
-            <p><b>Användarnamn: </b>{{experiment.name}}</p>            
-            <p><b>Beskrivning: </b>{{experiment.desc}}</p>
-            <p><b>Material: </b>{{experiment.materials}}</p>
-            <p><b>Intrusktioner:<br> </b>{{experiment.instructions}}</p>
-            <p>👍 {{experiment.likeCount}}</p>
-        </article>
-                    
+                <p><b>Användarnamn: </b>{{experiment.name}}</p>            
+                <p><b>Beskrivning: </b>{{experiment.desc}}</p>
+                <p><b>Material: </b>{{experiment.materials}}</p>
+            
+                <p><b>Bild:</b></p>
+                <section *ngFor="let test of experiment.imageURLs">
+                    <p>{{test.url}}</p>
+                </section>
+
+                <p><b>Intrusktioner:<br> </b>{{experiment.instructions}}</p>
+                <p>👍 {{experiment.likeCount}}</p>
+            
+                <section>
+                    <p> <b><u>Kommentarsfält</u></b> </p>
+                    <section *ngFor="let comment of experiment.comments">                
+                        <p>{{comment.content}} - {{comment.name}}</p>
+                    </section>
+                </section>
+            
+            </article>
+        
         </div>
     </main>
 </div>

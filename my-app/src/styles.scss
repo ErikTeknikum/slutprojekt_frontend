@@ -1,7 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'color';
 
-
 body{
   margin:0px;
   .wrapper{
@@ -15,6 +14,14 @@ body{
         display: none;
       }
       nav {
+        img{
+          margin-left: -10%;
+        }
+        h2{
+          margin: 0px;
+          color:$white;
+          font-size:2em;
+        }
         ul {
           list-style: none;
           padding: 0;
@@ -50,8 +57,9 @@ body{
           border-radius: 8px;
           margin: 20px 0;
           padding: 20px;
+          max-width: 60vw;
     
-          h2 {
+          h2 {  
             color: $white;
             margin-bottom: 10px;
             text-align: center;
@@ -95,12 +103,28 @@ body{
         border: 4px solid $background-darkgreen;
         border-radius: 8px;
         margin: 20px 0;
-        padding: 20px;
+        padding: 20px;        
 
         h2 {
           color: $white;
           margin-bottom: 10px;
           text-align: center;
+        }
+
+        section{
+          background-color: $background-darkgreen;
+          border:3px solid $black;
+          section{
+            border:none;
+          }
+        }
+
+        .category {
+          background-color: $background-lightgreen;
+          width: auto;
+          margin:0px;
+          position: relative;
+          border:none;
         }
 
         figure {
@@ -123,13 +147,30 @@ body{
           color: $black;
           margin-bottom: 15px;
           text-align: center;
-          font-size: 2em;
+          font-size: 1em;
+          
         }
       }      
     }
   }    
 }
 @media (min-width: 800px) {
+
+  #home{
+    .wrapper{
+      main{
+        div{
+          article{
+            min-width:20vw;
+            p{
+              font-size: 2em;
+            }
+          }
+        }
+      }
+    }
+  }
+
   header {
     text-align: right;
     background-color: $background-darkgreen;

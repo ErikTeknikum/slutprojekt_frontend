@@ -10,6 +10,6 @@ export interface Experiment {
     reportCount: number,
     categories: Array<{id: number, exptId: number, category: string}>,
     comments: Array<{id: number, userId: number, name:string, content:string}>
-    imageUrls: Array<{id: number, url: string, exptId: string}>
+    imageURLs: Array<{id: number, url: string, exptId: number}>
 
 }
