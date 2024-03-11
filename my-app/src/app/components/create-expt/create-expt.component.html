@@ -1,16 +1,32 @@
 <div id="createExpt">
     <div class="wrapper">
         <main>
+            <p>hej</p>
             <form [formGroup]="formCreateExpt" (submit)="onSubmit()">
                 <div>
-                    <label for="title"></label>
+                    <label for="title">titel</label>
                     <input type="text" name="title" formControlName="title">
-                    <label for="desc"></label>
+
+                    <label for="desc">beskrivning</label>
                     <input type="text" name="desc" formControlName="desc">
-                    <label for="materials"></label>
+
+                    <label for="materials">material</label>
                     <input type="text" name="materials" formControlName="materials">
-                    <label for="instructions"></label>
+
+                    <label for="instructions">instruktioner</label>
                     <input type="text" name="instructions" formControlName="instructions">
+                    
+                    <input type="checkbox" id="Kemi" name="Kemi" value="Kemi">
+                    <label for="Kemi">Kemi</label><br>   
+
+                    <input type="checkbox" id="Fysik" name="Fysik" value="Fysik">                    
+                    <label for="Fysik">Fysik</label><br>
+
+                    <input type="checkbox" id="Mekanik" name="Mekanik" value="Mekanik">
+                    <label for="Mekanik">Mekanik</label>
+
+                    <input type="file" id="fileinput" name="img" class="file" (change)="onFileChange($event)">
+                    <button type="submit" [disabled]="!formCreateExpt.valid">Skapa inlägg</button>
                 </div>
             </form>
         </main>

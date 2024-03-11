@@ -7,11 +7,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, RouterOutlet } from '@angular/router';
+
+
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
-    NavComponent
+    NavComponent,
+    FormsModule,
   ],
   imports: [
     BrowserModule,
@@ -20,7 +23,7 @@ import { RouterModule, RouterOutlet } from '@angular/router';
     NgModule,
     RouterModule,
     RouterOutlet,
-    FormsModule
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
