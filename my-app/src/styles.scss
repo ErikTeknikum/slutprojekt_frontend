@@ -154,6 +154,86 @@ body{
     }
   }    
 }
+
+#createExpt {
+  background-color: $background-lightgreen;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .wrapper {
+    background-color: $white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba($black, 0.1);
+
+    main {
+      p {
+        color: $black;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+
+        div {
+          label {
+            color: $black;
+            margin-bottom: 5px;
+          }
+
+          input,
+          checkbox,
+          fileinput,
+          button {
+            margin-bottom: 10px;
+          }
+
+          input {
+            padding: 8px;
+            border: 1px solid $background-darkgreen;
+            border-radius: 5px;
+
+            &:focus {
+              outline: none;
+              border-color: $yellow;
+            }
+          }
+
+          checkbox {
+            &:checked {
+              color: $yellow;
+            }
+          }
+
+          fileinput {
+            display: block; /* Ensures file input is on a new line */
+          }
+
+          button {
+            background-color: $background-darkgreen;
+            color: $white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:disabled {
+              background-color: $background-lightgreen;
+              color: $black;
+              cursor: not-allowed;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
 @media (min-width: 800px) {
 
   #home{
