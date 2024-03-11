@@ -7,9 +7,10 @@ import { CreateExptComponent } from './components/create-expt/create-expt.compon
 
 export const routes: Routes = [
     {path: "", component: HomePageComponent, title: "Experiment Portalen"},
+    {path: "create", component: CreateExptComponent, title:"Experiment"},
     {path: "login", component: LogInComponent, title: "Experiment Portalen"},
     {path: ":experimentid", component: PostComponent, title:"Experiment Portalen"},
-    {path: "create", component: CreateExptComponent, title:"Experiment Portalen"}
+    
 ];
 
 export default Routes;
