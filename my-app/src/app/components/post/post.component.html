@@ -1,0 +1,16 @@
+<div id="post">
+    <main>
+        <div>
+
+        <article *ngFor= "let experiment of experiments">
+            <p><b>Titel: </b>{{experiment.title}}</p>
+            <p><b>Användarnamn: </b>{{experiment.name}}</p>            
+            <p><b>Beskrivning: </b>{{experiment.desc}}</p>
+            <p><b>Material: </b>{{experiment.materials}}</p>
+            <p><b>Intrusktioner:<br> </b>{{experiment.instructions}}</p>
+            <p>👍 {{experiment.likeCount}}</p>
+        </article>
+                    
+        </div>
+    </main>
+</div>

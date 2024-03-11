@@ -1,0 +1,172 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'color';
+
+
+body{
+  margin:0px;
+  .wrapper{
+    width: 100%;
+    margin: 0 auto;
+    header {
+      text-align: center;
+      background-color: $background-darkgreen;
+      height: 100%;
+      h1{
+        display: none;
+      }
+      nav {
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+  
+          li {
+            a {
+              font-size: 30px;
+              text-decoration: none;
+              color:$white;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+  }  
+}
+#home{
+  .wrapper{
+
+    main{
+      div {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: flex-start;
+        padding: 20px;
+    
+        article {
+          background-color: $background-lightgreen;
+          border: 3px solid $background-darkgreen;
+          border-radius: 8px;
+          margin: 20px 0;
+          padding: 20px;
+    
+          h2 {
+            color: $white;
+            margin-bottom: 10px;
+            text-align: center;
+          }
+    
+          figure {
+            margin: 0;
+    
+            img {
+              width: 100%;
+              max-height: 200px;
+              height: auto;
+            }
+    
+            figcaption {
+              color: $black;
+              font-style: italic;
+              text-align: right;
+            }
+          }
+    
+          p {
+            color: $black;
+            margin-bottom: 15px;
+            text-align: center;
+          }
+        }
+      }      
+    }
+  }    
+}
+#post{
+  main{
+    div {
+      justify-content: space-around;
+      align-items: flex-start;
+      padding: 20px;
+
+      article {
+        background-color: $background-lightgreen;
+        border: 4px solid $background-darkgreen;
+        border-radius: 8px;
+        margin: 20px 0;
+        padding: 20px;
+
+        h2 {
+          color: $white;
+          margin-bottom: 10px;
+          text-align: center;
+        }
+
+        figure {
+          margin: 0;
+
+          img {
+            width: 100%;
+            max-height: 200px;
+            height: auto;
+          }
+
+          figcaption {
+            color: $black;
+            font-style: italic;
+            text-align: right;
+          }
+        }
+
+        p {
+          color: $black;
+          margin-bottom: 15px;
+          text-align: center;
+          font-size: 2em;
+        }
+      }      
+    }
+  }    
+}
+@media (min-width: 800px) {
+  header {
+    text-align: right;
+    background-color: $background-darkgreen;
+    height: 80px;
+    color: $white;
+    padding: 20px;
+
+    nav {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      justify-content: center;
+      align-items: center;
+      height: 100px;
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        height: 100%;
+
+        li {
+          margin-right: 70px;
+
+          a {
+            text-decoration: none;
+            color: $white;
+            font-weight: bold;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+}

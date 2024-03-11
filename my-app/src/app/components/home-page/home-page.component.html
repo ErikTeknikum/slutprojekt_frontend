@@ -1,0 +1,21 @@
+<div id="home">
+    <div class="wrapper">
+        <main>
+            <div>
+
+                <article *ngFor="let experiment of experiments" (click)="articleId(experiment.id)">
+            <p><b>id: </b>{{experiment.id}}</p>
+            <p><b>AnvändarId </b>{{experiment.userId}}</p>
+            <p><b>Användarnamn: </b>{{experiment.name}}</p>
+            <p><b>Titel: </b>{{experiment.title}}</p>
+            <p><b>Beskrivning: </b>{{experiment.desc}}</p>
+            <p><b>Material: </b>{{experiment.materials}}</p>
+            <p><b>Intrusktioner: </b>{{experiment.instructions}}</p>
+            <p>👍 {{experiment.likeCount}}</p>
+        </article>
+                    
+        </div>
+    </main>
+    </div>
+    
+</div>
