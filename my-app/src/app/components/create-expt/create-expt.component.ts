@@ -1,12 +1,15 @@
 import { Component, OnInit, NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { FormGroup, ReactiveFormsModule, FormBuilder, Validators, AbstractControlOptions } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { ExperimentService } from '../../service/experiment.service';
+
 
 @Component({
   selector: 'app-create-expt',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, FormsModule],
   templateUrl: './create-expt.component.html',
   styleUrl: './create-expt.component.scss'
 })
@@ -15,22 +18,45 @@ export class CreateExptComponent {
   formCreateExpt!:FormGroup;
 
   constructor(
-    private formbuilder : FormBuilder
-    ){}    
+    
+    private formbuilder : FormBuilder,
+    private experimentService: ExperimentService,
+  ){
+    this.formCreateExpt = new FormGroup({
+      title: new FormControl(),
+      desc: new FormControl(),
+      materials: new FormControl(),
+      instructions: new FormControl(),
+      img: new FormControl(),
+      Kemi: new FormControl(),
+      Fysik: new FormControl(),
+      Mekanik: new FormControl(),
+    });
+  }    
   
     onSubmit():void{
-      if (this.formCreateExpt.valid) {
-        // Send data to backend
-        console.log(this.formCreateExpt.value);
-      } else {
-        // Handle form validation errors
-        console.error('Form is invalid');
+      try{
+        if(this.formCreateExpt.valid && this.requireCheckboxesValidator(this.formCreateExpt)?.requireOneChecked.valueOf() === true){
+          const formData = this.formCreateExpt.value;
+
+          this.experimentService.createExpt(formData).then(
+            (formData) => {
+              console.log("Skapade Experiment", formData);
+            },
+            (error) => {
+              console.error("Lyckades inte skapa experiment ", error);
+            }
+          );
+        }
+      }
+      catch (error) {
+        console.error("Lyckades inte skapa experiment", error);  
       }
     }
 
     ngOnInit(): void {
       this.formCreateExpt = this.formbuilder.group({  
-        titel: ["", Validators.required],
+        title: ["", Validators.required],
         desc: ["", Validators.required],
         materials: ["", Validators.required],
         instructions: ["", Validators.required],
@@ -39,24 +65,25 @@ export class CreateExptComponent {
         Kemi:[false],
         Fysik: [false],
         Mekanik:[false],
-
-
-      }, {validators: this.requireCheckboxesValidator } as AbstractControlOptions
-      );
+      });
+      this.requireCheckboxesValidator(this.formCreateExpt);
     }
 
     requireCheckboxesValidator(formGroup: FormGroup) {
-      const checkboxes = ['checkbox1', 'checkbox2', 'checkbox3'];
+      const checkboxes = ['Kemi', 'Fysik', 'Mekanik'];
       const checked = checkboxes.some(checkbox => formGroup.get(checkbox)!.value);
+      console.log(checked);
       return checked ? null : { requireOneChecked: true };
     }
 
     onFileChange(event: any) {
+      console.log("Ändrar bild");
       const file = event.target.files[0];
       this.convertFileToBase64(file);
     }
   
     convertFileToBase64(file: File) {
+      console.log("Ändrar till base64");
       const reader = new FileReader();
       reader.onload = () => {
         this.formCreateExpt.patchValue({

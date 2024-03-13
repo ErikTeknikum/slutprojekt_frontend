@@ -5,7 +5,7 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { NavComponent } from './components/nav/nav.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, RouterOutlet } from '@angular/router';
 
 
@@ -14,7 +14,6 @@ import { RouterModule, RouterOutlet } from '@angular/router';
     AppComponent,
     HomePageComponent,
     NavComponent,
-    FormsModule,
   ],
   imports: [
     BrowserModule,

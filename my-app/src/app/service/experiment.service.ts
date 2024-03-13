@@ -12,7 +12,7 @@ export class ExperimentService {
   private getExperimentsUrl = 'https://localhost:7004/Experiment';
   private getExperimentUrl = 'https://localhost:7004/Experiment/';
   private postLikeUrl = 'https://localhost:7004/Like';
-  private postExptUrl = '';
+  private postExptUrl = 'https://localhost:7004/Experiment';
 
   httpOtions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json'})
