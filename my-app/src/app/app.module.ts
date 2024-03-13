@@ -23,6 +23,10 @@ import { RouterModule, RouterOutlet } from '@angular/router';
     RouterModule,
     RouterOutlet,
     FormsModule,
+    ReactiveFormsModule,
+  ],
+  exports: [
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

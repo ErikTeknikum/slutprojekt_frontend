@@ -1,9 +1,10 @@
 import { Component, OnInit, NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from "@angular/forms";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { ExperimentService } from '../../service/experiment.service';
+import { getEnabledCategories } from 'trace_events';
 
 
 @Component({
@@ -17,27 +18,43 @@ export class CreateExptComponent {
 
   formCreateExpt!:FormGroup;
 
-  constructor(
-    
+  constructor(    
     private formbuilder : FormBuilder,
     private experimentService: ExperimentService,
   ){
-    this.formCreateExpt = new FormGroup({
-      title: new FormControl(),
-      desc: new FormControl(),
-      materials: new FormControl(),
-      instructions: new FormControl(),
-      img: new FormControl(),
-      Kemi: new FormControl(),
-      Fysik: new FormControl(),
-      Mekanik: new FormControl(),
+    this.formCreateExpt = this.formbuilder.group({
+      title: ["", Validators.required],
+      desc: ["", Validators.required],
+      materials: ["", Validators.required],
+      instructions: ["", Validators.required],
+      img: [null],
+      categories: this.formbuilder.array([]),
     });
   }    
   
+  onCheckBoxChange(event: any) {
+  const categoriesFormArray = this.formCreateExpt.get('categories') as FormArray;
+
+  if (event.target.checked) {
+    categoriesFormArray.push(new FormControl(event.target.name));
+  } else {
+    const index = categoriesFormArray.controls.findIndex(x => x.value === event.target.name);
+    categoriesFormArray.removeAt(index);
+  }
+
+  // Convert the FormArray value to JSON and assign it to the form data
+  const formData = this.formCreateExpt.value;
+  formData.categories = JSON.stringify(categoriesFormArray.value);
+
+  console.log(formData);
+}
+
     onSubmit():void{
       try{
-        if(this.formCreateExpt.valid && this.requireCheckboxesValidator(this.formCreateExpt)?.requireOneChecked.valueOf() === true){
+        if (this.formCreateExpt.valid) {
           const formData = this.formCreateExpt.value;
+
+          console.log(formData);
 
           this.experimentService.createExpt(formData).then(
             (formData) => {
@@ -48,9 +65,8 @@ export class CreateExptComponent {
             }
           );
         }
-      }
-      catch (error) {
-        console.error("Lyckades inte skapa experiment", error);  
+      } catch (error) {
+        console.error("Lyckades inte skapa experiment", error);
       }
     }
 
@@ -62,18 +78,8 @@ export class CreateExptComponent {
         instructions: ["", Validators.required],
         
         img: [null],
-        Kemi:[false],
-        Fysik: [false],
-        Mekanik:[false],
+        categories:[[]]
       });
-      this.requireCheckboxesValidator(this.formCreateExpt);
-    }
-
-    requireCheckboxesValidator(formGroup: FormGroup) {
-      const checkboxes = ['Kemi', 'Fysik', 'Mekanik'];
-      const checked = checkboxes.some(checkbox => formGroup.get(checkbox)!.value);
-      console.log(checked);
-      return checked ? null : { requireOneChecked: true };
     }
 
     onFileChange(event: any) {

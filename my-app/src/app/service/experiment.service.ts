@@ -49,6 +49,9 @@ export class ExperimentService {
       body: JSON.stringify(data),
     });
 
+    console.log(data);
+
+
     if (!response.ok) {
       throw new Error("Failed to create post: " + response.statusText);
     }
