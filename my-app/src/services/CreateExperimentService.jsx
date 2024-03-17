@@ -8,7 +8,7 @@ const FormComponent = () => {
   const [description, setDescription] = useState('');
   const [materials, setMaterials] = useState('');
   const [instructions, setInstructions] = useState('');
-  const [categories, setCategories] = useState(initialCategories || []);
+  const [categories, setCategories] = useState([]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -30,8 +30,14 @@ const FormComponent = () => {
       console.error(error);
     }
 
+  
+
+
+
     // Construct categories array with desired JSON structure
-    const categoriesData = categories.map((cat) => ({ category: cat }));
+    const categoriesData = categories.map((cat) => ({
+      category: cat
+    }));
     // Do something with the form data
     console.log({
       userId,

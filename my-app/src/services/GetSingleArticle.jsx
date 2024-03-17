@@ -26,6 +26,12 @@ async function VerifyUser() {
   }
 }
 
+function EditExperiment(props){
+  const currentPath = window.location.origin; 
+  const newUrl = `${currentPath}/experiment/${props.id}/edit`; 
+  window.location.href = newUrl; 
+}
+
 function Article(props) {
   const [content, setContent] = useState("");
   const [isAuthor, setIsAuthor] = useState(false);
@@ -40,7 +46,6 @@ function Article(props) {
         setIsAuthor(true);
       } else{
         console.log("Not author");
-        setIsAuthor(true); //Ta bort när testfas är klar!
       }
     })();
   }, []);
@@ -60,12 +65,6 @@ function Article(props) {
     } catch(error){
       console.error(error);
     }
-  }
-
-  const EditExperiment = (props) => {
-    const currentPath = window.location.origin; 
-    const newUrl = `${currentPath}/experiment/${props.id}/edit`; 
-    window.location.href = newUrl; 
   }
 
   const createComment = async (e) => {
@@ -148,7 +147,8 @@ function Article(props) {
         {isAuthor && ( //Genereras endast om användaren är skaparen
           <>
           <button onClick={DeleteExperiment}>Ta bort experiment</button>
-          <button onClick={EditExperiment(props.id)}>Redigera experiment</button>
+          <button onClick={() => EditExperiment(props)}>Redigera experiment</button>
+
           </>
 
         )}
