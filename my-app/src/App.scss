@@ -1,75 +1,134 @@
+$darkgreen: #92AA83;
+$lightgreen: #E0EDC5;
+$yellow: #E7F59E;
+$black: #000;
+$white: #FFF;
+
+@import url('https://fonts.googleapis.com/css2?family=Honk&family=Rubik+Glitch+Pop&display=swap');
+.rubik-glitch pop-regular {
+  font-family: "Rubik Glitch Pop", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+@import url('https://fonts.googleapis.com/css2?family=Honk&display=swap');
+.honk honk-regular {
+  font-family: "Honk", system-ui;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "MORF" 15,
+    "SHLN" 50;
+}
+
 .App {
+  font-family: "Rubik Glitch Pop", system-ui;
+  h1, h2, h3, a{
+    font-family: "Honk", system-ui;
+  }
+
+
+  button {
+    padding: 12px 24px;
+    background-color: $yellow;
+    color: $black;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: $lightgreen;
+    }
+  }
+
+  button[type="logout"]{
+    margin-left:2vw;
+  }
+
   footer {
     position: fixed;
     width: 100%;
     text-align: center;
     bottom: 0;
     height: 50px;
-    background-color: #E7F59E;
+    background-color: $yellow;
   }
 
-  .form-container {
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+
   
-    div {
-      margin-bottom: 20px;
+  .auth-container{
+    h2{
+      padding-left:3vw;
+    }
+  }
+    .form-container {
+      margin: 20px;
+      padding: 20px;
+      border: 1px solid $darkgreen;
+      border-radius: 10px;
   
-      label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
+      h2{
+        margin-left:1vw;
       }
   
-      input[type="text"],
-      input[type="password"],
-      textarea {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-      }
+      div {
+        margin-bottom: 20px;
   
-      textarea {
-        resize: vertical;
-      }
+        label {
+          display: block;
+          margin-bottom: 10px;
+          font-weight: bold;
+        }
   
-      label:not(:first-child) {
-        margin-top: 10px;
-      }
+        input[type="text"],
+        input[type="password"],
+        textarea {
+          width: 99%;
+          padding: 12px;
+          border: 1px solid $darkgreen;
+          border-radius: 8px;
+          font-size: 16px;
+          transition: border-color 0.3s;
   
-      .checkbox-label {
-        display: block;
-        margin-top: 5px;
+          &:focus {
+            border-color: $yellow;
+            outline: none;
+          }
+        }
+  
+        textarea {
+          resize: vertical;
+        }
+  
+        label:not(:first-child) {
+          margin-top: 20px;
+        }
+  
+        .checkbox-label {
+          display: block;
+          margin-top: 10px;
+        }
       }
     }
   
-    button[type="submit"] {
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-  
-      &:hover {
-        background-color: #0056b3;
-      }
-    }
-  }
-  
-  .footer {
-    text-align: center;
-    margin-top: 20px;
-    color: #666;
-  }
-  
-
 
   nav {
+    background-color: $darkgreen;
+    
+    .titleContainer {
+      margin-bottom: 20px;
+      img {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+      }
+    }
+    .NavlinkContainer{
+      padding-bottom: 15px;
+      border-bottom:1px solid $black;
+    }
+
     ul {
       list-style: none;
       padding: 0;
@@ -77,27 +136,28 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      
 
       li {
-        margin: 0 10px;
+        margin: 0 20px;
 
         a {
           text-decoration: none;
-          color: #92AA83;
-          font-size: 16px;
+          color: $darkgreen;
+          font-size: 18px;
           font-weight: bold;
           transition: color 0.3s ease;
 
           &:hover {
-            color: #E0EDC5;
+            color: $lightgreen;
           }
 
           &.active {
-            color: #E7F59E; // Change to your active color
-            border: 2px solid #000;
-            padding: 5px;
+            color: $white;
+            border: 2px solid $black;
+            padding: 8px 16px;
             border-radius: 20px;
-            background-color: #92AA83;
+            background-color: $lightgreen;
           }
         }
       }
@@ -106,158 +166,136 @@
 
   .articles-wrapper {
     main {
-      margin-top: 20px;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-top: 40px;
+      padding: 30px;
+      background-color: $white;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba($black, 0.1);
 
       img {
         display: block;
-        margin: 0 auto; // Center the image horizontally
-        max-width: 100%; // Ensure the image does not exceed its container width
-        margin-bottom: 10vw;
-        margin-top: 10vw;
+        margin: 0 auto;
+        width: 70%;
+        border-radius: 10px;
+        margin-bottom: 20px;
       }
 
       .experimentContainer {
         cursor: pointer;
-        margin-bottom: 20px; // Adjust as needed
-        padding: 20px; // Adjust as needed
-        background-color: #fff; // Adjust as needed
-        border-radius: 10px; // Adjust as needed
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); // Adjust as needed
+        margin-bottom: 30px;
+        padding: 30px;
+        background-color: $white;
+        border-radius: 20px;
+        box-shadow: 0 0 10px rgba($black, 0.1);
 
         h3 {
-          margin-bottom: 10px; // Adjust as needed
+          margin-bottom: 20px;
+          font-size: 24px;
+          color: $darkgreen;
         }
 
         h4 {
-          margin-top: 15px; // Adjust as needed
-          margin-bottom: 5px; // Adjust as needed
+          margin-top: 25px;
+          margin-bottom: 10px;
+          font-size: 20px;
+          color: $darkgreen;
         }
 
         ul {
-          margin-left: 20px; // Adjust as needed
+          margin-left: 30px;
+          font-size: 16px;
+          color: $black;
         }
       }
     }
   }
-
-  .form-wrapper {
-    max-width: 600px;
-    margin: 0 auto;
-
-    form {
-      div {
-        margin-bottom: 20px;
-
-        label {
-          display: block;
-          margin-bottom: 5px;
-          font-weight: bold;
-        }
-
-        input[type="text"],
-        textarea {
-          width: 100%;
-          padding: 8px;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          resize: vertical; // Allow vertical resizing of text area
-        }
-
-        input[type="checkbox"] {
-          margin-right: 5px;
-          cursor: pointer;
-        }
-
-        button[type="submit"] {
-          padding: 10px 20px;
-          background-color: #E0EDC5;
-          color: #000;
-          font-weight: bold;
-          border: 2px solid #000;
-          border-radius: 5px;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-
-          &:hover {
-            background-color: #92AA83;
-          }
-        }
-      }
-    }
-  }
-
 
   .singleExperimentContainer {
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 20px;
+    padding: 30px;
+    border: 2px solid $darkgreen;
+    border-radius: 20px;
+    margin-bottom: 30px;
 
-  article {
-    h3 {
-      margin-bottom: 10px;
-      font-size: 1.5rem;
-    }
+    .commentSubmitBtn {
+      margin-left: 10px;
+      padding: 8px 16px;
+      background-color: $yellow;
+      color: $black;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
 
-    h4 {
-      margin-bottom: 5px;
-      font-size: 1.2rem;
-    }
-
-    ul {
-      margin-bottom: 10px;
-
-      li {
-        list-style: none;
-        margin-left: 0;
-        margin-bottom: 5px;
+      &:hover {
+        background-color: $lightgreen;
       }
     }
 
-    p {
-      margin-bottom: 10px;
-    }
+    article {
+      h3 {
+        margin-bottom: 20px;
+        font-size: 28px;
+        color: $darkgreen;
+      }
 
-    section {
-      margin-bottom: 10px;
-      border-top: 1px solid #ccc;
-      padding-top: 10px;
+      h4 {
+        margin-bottom: 10px;
+        font-size: 24px;
+        color: $darkgreen;
+      }
+
+      ul {
+        margin-bottom: 20px;
+
+        li {
+          list-style: none;
+          margin-left: 0;
+          margin-bottom: 10px;
+          font-size: 18px;
+          color: $black;
+        }
+      }
 
       p {
-        margin-bottom: 5px;
-        font-size: 1rem;
-        line-height: 1.4;
+        margin-bottom: 20px;
+        font-size: 18px;
+        color: $black;
+      }
+
+      section {
+        margin-bottom: 20px;
+        border-top: 2px solid $darkgreen;
+        padding-top: 20px;
+
+        p {
+          margin-bottom: 10px;
+          font-size: 16px;
+          line-height: 1.4;
+          color: $black;
+        }
       }
     }
   }
+
+  .experimentsContainer {
+    max-width: 900px;
+    margin: 0 auto;
+  }
 }
-
-.experimentsContainer {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-
-}
-
 
 @media only screen and (max-width: 600px) {
   .form-wrapper form div {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
 
     label {
-      flex: 0 0 30%; // Adjust as needed
+      margin-bottom: 10px;
     }
 
     input[type="text"],
     textarea {
-      flex: 0 0 70%; // Adjust as needed
+      width: 98%;
+      margin-bottom: 10px;
     }
   }
 }

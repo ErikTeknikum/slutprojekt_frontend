@@ -9,7 +9,7 @@ let userId = 0;
 
 async function VerifyUser() {
   try {
-    const userIdResponse = await axios.get("https://localhost:7004/User/VerifyUserId", {
+    const userIdResponse = await axios.get("https://experimentportalen.azurewebsites.net/User/VerifyUserId", {
       method: "GET",
       mode: "cors",
       headers: {
@@ -21,40 +21,43 @@ async function VerifyUser() {
     userId = userIdResponse.data;
     return userId;
   } catch (error) {
-    console.error(error);
+    console.log("Du är ej inloggad")
     return 0;
   }
 }
 
-function EditExperiment(props){
-  const currentPath = window.location.origin; 
-  const newUrl = `${currentPath}/experiment/${props.id}/edit`; 
-  window.location.href = newUrl; 
+function EditExperiment(props) {
+  const currentPath = window.location.origin;
+  const newUrl = `${currentPath}/experiment/${props.id}/edit`;
+  window.location.href = newUrl;
 }
 
 function Article(props) {
   const [content, setContent] = useState("");
   const [isAuthor, setIsAuthor] = useState(false);
-
+  const [isLiked, setIsLiked] = useState(false);
+  
   React.useEffect(() => {
     (async () => {
       userId = await VerifyUser();
-      console.log(userId);
-      console.log(props.userId);
-      if(props.userId === userId){
+      const liked = await checkIfLiked(userId);
+      setIsLiked(liked);
+ 
+
+      if (props.userId === userId) {
         console.log("Author");
         setIsAuthor(true);
-      } else{
+      } else {
         console.log("Not author");
       }
     })();
-  }, []);
+  }, [props.id]);
 
   const DeleteExperiment = async (event) => {
     console.log("Deleting experiment");
-    try{
+    try {
       console.log("trying to delete experiment!");  //Fungerar inte i azure på grund av apifel 'https://experimentportalen.azurewebsites.net/Experiment/'+props.id,
-      const response = await fetch('https://localhost:7004/Experiment/'+props.id, {
+      const response = await fetch('https://experimentportalen.azurewebsites.net/Experiment/' + props.id, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +65,10 @@ function Article(props) {
         }
       });
       const data = await response.json();
-    } catch(error){
+      if(response.ok){
+        window.localtion.href="/home";
+      }
+    } catch (error) {
       console.error(error);
     }
   }
@@ -104,12 +110,32 @@ function Article(props) {
       } else {
         console.log("no content");
       }
-    } else{
-      window.location.href="/login"
+    } else {
+      window.location.href = "/login"
     }
 
     window.location.reload();
   };
+
+  const checkIfLiked = async (event) => {
+    try {
+      console.log("trying to check if already liked"); //Fungerar, men inte på azure?, Specialtecken gör att det blir konstig länk
+      const response = await fetch('https://experimentportalen.azurewebsites.net/Like/Check?exptId=' + props.id + '&userId=' + userId, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if(response.ok){
+        const data = await response.json();
+        console.log(data);
+        return data;
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
 
   const likeExperiment = async (event) => {
     event.preventDefault();
@@ -117,25 +143,48 @@ function Article(props) {
     console.log("userId in likeExperiment", userId);
 
     //Fetchar userId
-   
+    let isLiked = await checkIfLiked();
+    //Kolla ifall sidan redan är likad
+    console.log(isLiked);
+
     if (userId !== 0) {
-      try {
-        console.log("trying to like"); //Fungerar, men inte på azure?, Specialtecken gör att det blir konstig länk
-        const response = await fetch('https://experimentportalen.azurewebsites.net/Like?exptId=' + props.id + '&userId=' + userId, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        console.log(response);
-        console.log("Lyckades gilla experiment!");
-        //window.location.reload();
-      } catch (error) {
-        console.error(error);
+      if (isLiked) {
+        try {
+          console.log("trying to unlike"); //Fungerar, men inte på azure?, Specialtecken gör att det blir konstig länk
+          const response = await fetch('https://experimentportalen.azurewebsites.net/Like?exptId=' + props.id + '&userId=' + userId, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          if(response.ok){
+            window.location.reload();
+          }
+          //window.location.reload();
+        } catch (error) {
+          console.error(error);
+        }
+      } else if(isLiked != null) {
+        try {
+          console.log("trying to like"); //Fungerar, men inte på azure?, Specialtecken gör att det blir konstig länk
+          const response = await fetch('https://experimentportalen.azurewebsites.net/Like?exptId=' + props.id + '&userId=' + userId, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          console.log(response);
+          if(response.ok){
+            window.location.reload();
+          }
+          //w
+        } catch (error) {
+          console.error(error);
+        }
       }
+
     } else {
       //Inte inloggad
-      console.log("du är inte inloggad!");
       window.location.href = "/login";
     }
   }
@@ -146,11 +195,10 @@ function Article(props) {
         <h3>{props.title}</h3>
         {isAuthor && ( //Genereras endast om användaren är skaparen
           <>
-          <button onClick={DeleteExperiment}>Ta bort experiment</button>
-          <button onClick={() => EditExperiment(props)}>Redigera experiment</button>
+            <button onClick={DeleteExperiment}>Ta bort experiment</button> <br /><br />
+            <button onClick={() => EditExperiment(props)}>Redigera experiment</button>
 
           </>
-
         )}
         <h4>Kategorier</h4>
         <ul>
@@ -163,16 +211,20 @@ function Article(props) {
           ))}
         </ul>
 
+        {props.imageURLs.map((imageArr, index) => (
+          <img key={index} src={process.env.PUBLIC_URL + "/images/" + imageArr.url} alt={`Image ${index + 1}`} />        
+        ))}
+
         <p><b>Användarnamn:</b> {props.name}</p>
         <p><b>Beskrivning:</b> {props.desc}</p>
         <p><b>Instruktioner:</b> {props.instructions}</p>
-        
+
         <form onSubmit={likeExperiment}>
           <div>
-            <p>👍: {props.likeCount}</p><button type="submit">Gilla</button>
+            <p>👍: {props.likeCount}</p><button type="submit">{isLiked ? 'Unlike' : 'Like'}</button>
           </div>
         </form>
-        
+
         {props.comments.map((commentArray, index) => (
           <section key={index}>
             <h4>Kommentarsfält</h4>
@@ -180,7 +232,7 @@ function Article(props) {
             <form onSubmit={createComment}>
               <div>
                 <label>Skriv en kommentar:</label><br />
-                <input type="text" value={content} onChange={(e) => setContent(e.target.value)} /><button type="submit">Submit</button>
+                <input type="text" value={content} onChange={(e) => setContent(e.target.value)} /><button type="submit" className="commentSubmitBtn">Submit</button>
               </div>
             </form>
 
@@ -205,7 +257,7 @@ function GetSingleArticle(props) {
 
   console.log(experimentArr);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <img src="Spinner-1s-200px.svg" alt="loadingResources" style={{width: 100}}/>;
 
   if (!experimentArr) {
     return (
@@ -231,7 +283,7 @@ function GetSingleArticle(props) {
         materials={experimentArr.materials}
         likeCount={experimentArr.likeCount}
         categories={[experimentArr.categories]} // Fixed the categories array syntax
-        imageURLs={[experimentArr.imageURLs.id, experimentArr.imageURLs.url]} // Fixed the imageURLs array syntax
+        imageURLs={experimentArr.imageURLs} // Fixed the imageURLs array syntax
         comments={[experimentArr.comments]} // Fixed the comments array syntax
       />
     </div>

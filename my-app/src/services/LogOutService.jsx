@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 function LogOutService(){
     const handleClick= (e) => {
         localStorage.removeItem('GUID:');
-        console.log("utloggad!");
+        window.location.href="/home";
     }
 
     return (

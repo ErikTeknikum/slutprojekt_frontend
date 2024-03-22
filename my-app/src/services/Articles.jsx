@@ -2,7 +2,6 @@ import * as React from 'react';
 import useFetch from 'react-fetch-hook';
 
 function Article(props) {
-  console.log(props.likeCount);
   const handleClick = () => {
     console.log(props.id);
     const currentPath = window.location.origin; 
@@ -26,7 +25,10 @@ function Article(props) {
           ))}
         </ul>
 
-
+        {props.imageURLs.map((imageArr, index) => (
+          <img key={index} src={process.env.PUBLIC_URL + "/images/" + imageArr.url} alt={`Image ${index + 1}`} />        
+        ))}
+        
         <p><b>Användarnamn:</b> {props.name}</p>  
         <p><b>Beskrivning:</b> {props.desc}</p>
         <p><b>Instruktioner:</b> {props.instructions}</p>
@@ -49,7 +51,7 @@ function Articles() {
   if (isLoading) {
     return (
       
-      <img src="Spinner-1s-200px.svg" alt="loadingResources" />
+      <img src="Spinner-1s-200px.svg" alt="loadingResources" style={{width: 100}}/>
       
     );
   }
@@ -74,7 +76,7 @@ function Articles() {
         materials={element.materials}
         likeCount={element.likeCount}
         categories={[element.categories]} // Fixed the categories array syntax
-        imageURLs={[element.imageURLs.id, element.imageURLs.url]} // Fixed the imageURLs array syntax
+        imageURLs={element.imageURLs} // Fixed the imageURLs array syntax
         comments={[element.comments.id, element.comments.userId, element.comments.name, element.comments.exptId, element.comments.content]} // Fixed the comments array syntax
     />    
   ));

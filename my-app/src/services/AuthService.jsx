@@ -16,21 +16,21 @@ function AuthService() {
     console.log('Password:', password);
 
 
-    try{
-        const response = await axios.get("https://localhost:7004/User/Login", {
-            headers:{
-                Authorization:`Basic ${btoa(`${username}:${password}`)}`,
-            }
-        });
-        localStorage.setItem('GUID:', response.data);
+    try {
+      const response = await axios.get("https://experimentportalen.azurewebsites.net/User/Login", {
+        headers: {
+          Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+        }
+      });
+      localStorage.setItem('GUID:', response.data);
+      if (localStorage.getItem('GUID:') === response.data) {
         console.log("Lyckades logga in!" + response.data);
-        console.log(response);
+        window.location.href="/home";
+      }
 
-    } catch(error){
-        console.error(error);
+    } catch (error) {
+      console.error(error);
     }
-
-
 
     // You can also add logic to clear the form fields after submission
     setUsername('');
@@ -38,7 +38,7 @@ function AuthService() {
   };
 
   return (
-    <div>
+    <div className="auth-container">
       <h2>Login</h2>
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
@@ -50,10 +50,10 @@ function AuthService() {
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
         <button type="submit">Login</button>
-        <div>Har du inte ett konto?<br/>
+        <div>Har du inte ett konto?<br />
           <NavLink to="/register">klicka här</NavLink>
-        </div>      
-        
+        </div>
+
       </form>
     </div>
   );

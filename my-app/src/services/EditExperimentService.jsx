@@ -2,53 +2,73 @@ import useFetch from 'react-fetch-hook';
 import React, { useState } from 'react';
 import axios from 'axios';
 
+let userId;
 async function VerifyUser() {
     try {
-        const userIdResponse = await axios.get("https://localhost:7004/User/VerifyUserId", {
-            method: "GET",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: localStorage.getItem('GUID:')
-            }
-        });
-        return userIdResponse.data;
+      const userIdResponse = await axios.get("https://experimentportalen.azurewebsites.net/User/VerifyUserId", {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem('GUID:')
+        }
+      });
+      console.log("Lyckades verifiera! id är: " + userIdResponse.data);
+      userId = userIdResponse.data;
+      return userId;
     } catch (error) {
-        console.error(error);
-        return 0;
+      console.log("Du är ej inloggad")
+      return 0;
     }
-}
+  }
 
 function Article(props) {
-    const [content, setContent] = useState("");
     const [categories, setCategories] = useState([]);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [materials, setMaterials] = useState('');
     const [instructions, setInstructions] = useState('');
 
+
     React.useEffect(() => {
         (async () => {
             const userId = await VerifyUser();
             if (props.userId !== userId) {
-                window.location.href="/home"
+                // window.location.href="/home"
+                console.log("Not Author GRR");
             }
         })();
     }, []);
 
     const renderCheckboxes = () => {
         const availableCategories = ['Mekanik', 'Kemi', 'Fysik'];
-        return availableCategories.map(category => (
-            <label key={category}>
-                <input
-                    type="checkbox"
-                    checked={category.includes(category)}
-                    onChange={() => handleCheckboxChange(category)}
-                />
-                {category}
-            </label>
-        ));
+
+        return availableCategories.map(category => {
+            const isChecked = props.categories.some(innerArray => innerArray.some(categoryObj => categoryObj.category === category));
+
+            return (
+                <label key={category}>
+                    <input
+                        type="checkbox"
+                        checked={isChecked}
+                        readOnly
+                    />
+                    {category}
+                </label>
+            );
+        });
     };
+
+
+    const handleCheckboxChange = (category) => {
+        const isChecked = categories.includes(category);
+        if (isChecked) {
+          setCategories(categories.filter((cat) => cat !== category));
+        } else {
+          setCategories([...categories, category]);
+        }
+      };
+    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -57,51 +77,75 @@ function Article(props) {
 
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-
-        const response = await fetch('https://localhost:7004/Experiment', {
+        const categoriesData = categories.map((cat) => ({
+            category: cat
+          }));
+        const response = await fetch('https://experimentportalen.azurewebsites.net/Experiment', {
             method: 'PUT',
             mode: "cors",
             headers: myHeaders,
-            body: JSON.stringify({ 'exptId': props.id, 'userId': userId, 'title': title, 'desc': description, 'materials': materials, 'instructions': instructions, 'categories': categories })
+            body: JSON.stringify({ 'id': props.id, 'userId': userId, 'title': title, 'desc': description, 'materials': materials, 'instructions': instructions, 'categories': categoriesData })
         });
-
+        console.log(JSON.stringify({ 'id': props.id, 'userId': userId, 'title': title, 'desc': description, 'materials': materials, 'instructions': instructions, 'categories': categoriesData }));
         const data = await response.json();
-        console.log('Response:', data);
-        console.log(response);
+
     };
 
-    const handleCheckboxChange = (category) => {
-        const isChecked = categories.some(cat => cat.category === category);
-        if (isChecked) {
-            setCategories(categories.filter(cat => cat.category !== category));
-        } else {
-            setCategories([...categories, { category }]);
-        }
-    };
-
+    //console.log(props);
+    //console.log(props.categories);
     return (
         <div className="singleExperimentContainer">
             <article key={props.id}>
                 <form className="form-container" onSubmit={handleSubmit}>
                     <div>
                         <label>Title:</label>
+                        <p>Föregående titel: {props.title}</p>
                         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
                     </div>
                     <div>
                         <label>Description:</label>
+                        <p>Föregående beskrivning: {props.desc}</p>
                         <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
                     </div>
                     <div>
                         <label>Materials:</label>
+                        <p>Föregående material: {props.materials}</p>
                         <input type="text" value={materials} onChange={(e) => setMaterials(e.target.value)} />
                     </div>
                     <div>
                         <label>Instructions:</label>
+                        <p>Föregående instruktioner: {props.instructions}</p>
                         <textarea value={instructions} onChange={(e) => setInstructions(e.target.value)} />
+
                     </div>
                     <div>
-                        <label>Categories:</label>
-                        {renderCheckboxes()}
+                        <label>Föregående Kategorier</label>
+                        {renderCheckboxes(props)}
+                        <label>Nya Kategorier:</label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={categories.includes('Mekanik')}
+                                onChange={() => handleCheckboxChange('Mekanik')}
+                            />
+                            Mekanik
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={categories.includes('Kemi')}
+                                onChange={() => handleCheckboxChange('Kemi')}
+                            />
+                            Kemi
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={categories.includes('Fysik')}
+                                onChange={() => handleCheckboxChange('Fysik')}
+                            />
+                            Fysik
+                        </label>
                     </div>
                     <button type="submit">Submit</button>
                 </form>
